@@ -1,11 +1,33 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const posts = await getCollection('blog');
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Moj Probni Sajt">
+  <main class="container my-5">
+    <h1 class="mb-4 text-center">Najnoviji Blog Članci</h1>
+    
+    <div class="row">
+      {posts.map(async (post) => {
+        const { Content } = await render(post);
+        return (
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">{post.data.title}</h5>
+                <p class="card-text text-muted small">
+                  {new Date(post.data.date).toLocaleDateString('sr-RS')}
+                </p>
+                <div class="card-text">
+                  <Content />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </main>
 </Layout>
