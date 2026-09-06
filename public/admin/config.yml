@@ -1,0 +1,19 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true # Omogućava rad na localhostu bez mrežnog backend-a
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog Članci"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Naslov", name: "title", widget: "string" }
+      - { label: "Datum", name: "date", widget: "datetime" }
+      - { label: "Sadržaj", name: "body", widget: "markdown" }
